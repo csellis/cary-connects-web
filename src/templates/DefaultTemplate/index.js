@@ -2,12 +2,12 @@ import React, { Component } from 'react'
 import NavigationMenu from 'src/components/NavigationMenu'
 import Map from 'src/components/Map'
 import flip from 'geojson-flip'
+import AppProvider from '../../components/AppProvider.jsx'
+import {AppContext} from '../../components/AppProvider.jsx'
+
 
 export default class DefaultTemplate extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
+ state = {
       businessData: null,
       parkingData: null,
       location: {
@@ -16,7 +16,7 @@ export default class DefaultTemplate extends Component {
       },
       zoom: 15,
     };
-  }
+
 
   componentDidMount() {
     return new Promise((resolve, reject) => {
@@ -45,7 +45,7 @@ export default class DefaultTemplate extends Component {
     });
   };
 
-  moveMap(location, zoom) {
+  moveMap = (location, zoom) =>  {
     this.setState({
       location: location,
       zoom: zoom
@@ -58,12 +58,20 @@ export default class DefaultTemplate extends Component {
     const { parkingData } = this.state;
 
     return (
+      <AppProvider>
+        <AppContext.Consumer>
+          {(value) => console.log(value)}
+        </AppContext.Consumer>
       <div id='default-template'>
         <NavigationMenu data={ businessData } thirdNamePass={this.relocater}/>
         <Map relocateMap={this.state.location} zoomMap={this.state.zoom} modifyLocation={this.moveMap.bind(this)} polygonData={ parkingData }/>
 
         { this.props.children }
       </div>
+      </AppProvider>
+
+
+
     )
   }
 
