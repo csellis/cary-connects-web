@@ -1,9 +1,17 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import 'leaflet/dist/leaflet.css'
-import './components/Map/styles.css'
-import Routes from './routes'
-import registerServiceWorker from './utilities/registerServiceWorker'
+import React from 'react';
+import { render } from 'react-dom';
+import { Route, BrowserRouter as Router } from 'react-router-dom';
+import registerServiceWorker from './utilities/registerServiceWorker';
+import App from './App';
 
-ReactDOM.render(<Routes />, document.getElementById('root'))
-registerServiceWorker()
+import './components/Map/styles.css';
+import 'leaflet/dist/leaflet.css';
+
+render(
+    <Router>
+        <Route path="/" component={App} />
+    </Router>,
+    document.getElementById('app')
+);
+
+registerServiceWorker();
